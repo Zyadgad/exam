@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1769e0">
+<title>SEO Master Quiz</title>
+<style>
+:root{--blue:#1769e0;--blue2:#0b4dbb;--border:#dce7f7;--text:#17243a;--muted:#718096;--green:#16a34a;--red:#dc2626}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Tahoma,sans-serif;color:var(--text);background:linear-gradient(135deg,#f8fbff,#eef5ff)}
+body{padding:0} .app{width:100%;max-width:950px;margin:auto;padding:14px 10px 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.brand{font-weight:800;font-size:18px;color:var(--blue)} .badge{background:#e8f1ff;color:var(--blue);padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.card{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:0 12px 35px rgba(30,80,150,.10);overflow:hidden}
+.start{padding:32px 20px;text-align:center} .start-icon{width:68px;height:68px;border-radius:20px;background:#eaf2ff;color:var(--blue);display:grid;place-items:center;font-size:28px;font-weight:800;margin:0 auto 14px}
+h1{margin:0 0 8px;font-size:27px} .subtitle{color:var(--muted);line-height:1.8;margin:0 auto 22px;max-width:650px;font-size:14px}
+.name-box{max-width:500px;margin:auto;text-align:right} .name-box label{font-weight:800;font-size:14px;display:block;margin-bottom:8px}
+input[type=text]{width:100%;height:52px;border:2px solid var(--border);border-radius:14px;padding:0 15px;font-size:16px;outline:none}
+input[type=text]:focus{border-color:#79aaf0;box-shadow:0 0 0 4px #eaf2ff}
+.main-btn{width:100%;max-width:500px;margin-top:14px;border:0;border-radius:14px;padding:14px 20px;font-weight:800;font-size:15px;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 8px 20px rgba(23,105,224,.22);-webkit-appearance:none}
+.header{padding:20px;border-bottom:1px solid #edf2f8} .header h2{font-size:19px;margin:0 0 3px} .user-line{font-size:12px;color:var(--muted)}
+.progress-wrap{margin-top:16px} .progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}
+.progress{height:8px;background:#e9f0fb;border-radius:20px;overflow:hidden} .progress-bar{height:100%;width:5%;background:linear-gradient(90deg,var(--blue),#55a0ff);transition:.25s}
+.quiz{padding:0 20px 22px} .question-card{display:none;padding:22px 0 5px} .question-card.active{display:block}
+.q-meta{display:flex;gap:8px;align-items:center;margin-bottom:10px} .q-number{font-weight:800;color:var(--blue);font-size:13px}
+.level{font-size:10px;padding:4px 9px;border-radius:999px;font-weight:800} .easy{background:#eaf8ef;color:#15803d} .medium{background:#fff7df;color:#a16207} .hard{background:#ffeaea;color:#b91c1c}
+.question{font-size:20px;line-height:1.7;margin:0 0 17px;font-weight:800} .options{display:grid;gap:10px}
+.option{width:100%;display:flex;align-items:center;gap:10px;text-align:right;border:2px solid var(--border);background:#fff;border-radius:14px;padding:13px 11px;cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;font-family:inherit;color:var(--text)}
+.option:active{transform:scale(.99)} .option.selected{border-color:var(--blue);background:#eef5ff}
+.radio{width:21px;height:21px;border:2px solid #aabbd4;border-radius:50%;flex:none;display:grid;place-items:center} .selected .radio{border-color:var(--blue)} .selected .radio:after{content:"";width:10px;height:10px;background:var(--blue);border-radius:50%}
+.letter{font-weight:800;color:var(--blue);width:20px;flex:none} .option-text{font-size:14px;line-height:1.65}
+.controls{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #edf2f8;margin-top:20px;padding-top:17px}
+.controls button{border:0;border-radius:12px;padding:11px 17px;font-family:inherit;font-weight:800;cursor:pointer;font-size:13px;-webkit-appearance:none}
+.btn-secondary{background:#eef3fa;color:#34445b} .btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff} .controls button:disabled{opacity:.4;cursor:not-allowed}
+.result{display:none;padding:28px 20px;text-align:center} .result.show{display:block}
+.score-ring{width:140px;height:140px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:conic-gradient(var(--blue) 0deg,#e8eef8 0deg);position:relative}
+.score-ring:after{content:"";position:absolute;inset:12px;background:#fff;border-radius:50%} .score-number{position:relative;z-index:1;font-size:29px;font-weight:800;color:var(--blue)}
+.result h2{margin:5px 0;font-size:24px} .result p{color:var(--muted);margin:5px 0 18px} .stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:15px 0}
+.stat{background:#f7faff;border:1px solid var(--border);border-radius:13px;padding:10px 16px;min-width:105px;font-size:12px} .stat b{display:block;font-size:19px;color:var(--blue)}
+.review{text-align:right;margin-top:22px} .review h3{font-size:17px} .review-item{border:1px solid var(--border);border-radius:13px;padding:13px;margin:8px 0}
+.review-item.correct{border-right:5px solid var(--green)} .review-item.wrong{border-right:5px solid var(--red)} .review-q{font-weight:800;line-height:1.6;font-size:13px} .review-a{font-size:12px;color:var(--muted);margin-top:5px}
+.hidden{display:none!important} .email-status{font-size:12px;margin:12px 0;color:var(--muted)}
+@media(max-width:600px){.app{padding:9px 7px 28px}.topbar{margin-bottom:9px}.brand{font-size:16px}.card{border-radius:17px}.start{padding:26px 15px}h1{font-size:23px}.subtitle{font-size:13px}.header{padding:17px 15px}.quiz{padding:0 15px 18px}.question-card{padding-top:19px}.question{font-size:17px;line-height:1.75}.option{padding:12px 10px}.option-text{font-size:13px}.controls button{padding:10px 13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar"><div class="brand">SEO MASTER</div><div class="badge">20 سؤال • MCQ</div></div>
+<main class="card">
+<section class="start" id="startScreen">
+<div class="start-icon">S</div><h1>اختبار SEO</h1>
+<p class="subtitle">اختبار تفاعلي متدرج من السهل إلى الصعب، مبني على محتوى المحاضرات.</p>
+<div class="name-box"><label for="studentName">اكتب اسمك قبل بدء الامتحان</label>
+<input id="studentName" type="text" maxlength="80" autocomplete="name" placeholder="مثال: Zyad Gad"></div>
+<button type="button" class="main-btn" id="startBtn">ابدأ الامتحان</button>
+</section>
+<section id="quizArea" class="hidden">
+<div class="header"><h2>SEO Master Quiz</h2><div class="user-line">المتقدم: <b id="displayName"></b></div>
+<div class="progress-wrap"><div class="progress-info"><span id="progressText">السؤال 1 من 20</span><span id="percent">5%</span></div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div></div></div>
+<section class="quiz" id="quiz"><article class="question-card active" data-question="0">
+<div class="q-meta"><span class="q-number">السؤال 1</span><span class="level easy">سهل</span></div>
+<h2 class="question">ما المقصود بـ SEO؟</h2>
+<div class="options"><button type="button" class="option" data-i="0" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">تحسين ظهور الموقع في محركات البحث</span>
+</button><button type="button" class="option" data-i="0" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">تصميم الشعارات فقط</span>
+</button><button type="button" class="option" data-i="0" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">إدارة الإعلانات المدفوعة فقط</span>
+</button><button type="button" class="option" data-i="0" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">برمجة تطبيقات الهاتف</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" disabled>السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="1">
+<div class="q-meta"><span class="q-number">السؤال 2</span><span class="level easy">سهل</span></div>
+<h2 class="question">ما المقصود بـ Search Intent؟</h2>
+<div class="options"><button type="button" class="option" data-i="1" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">نية المستخدم وراء عملية البحث</span>
+</button><button type="button" class="option" data-i="1" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">سرعة تحميل الموقع</span>
+</button><button type="button" class="option" data-i="1" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">عدد صفحات الموقع</span>
+</button><button type="button" class="option" data-i="1" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">اسم الدومين</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="2">
+<div class="q-meta"><span class="q-number">السؤال 3</span><span class="level easy">سهل</span></div>
+<h2 class="question">أي كلمة مفتاحية تمثل Informational Intent بشكل أوضح؟</h2>
+<div class="options"><button type="button" class="option" data-i="2" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">ما هي أفضل طرق تعلم SEO؟</span>
+</button><button type="button" class="option" data-i="2" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">شراء iPhone 16 بالتقسيط</span>
+</button><button type="button" class="option" data-i="2" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">تسجيل دخول فيسبوك</span>
+</button><button type="button" class="option" data-i="2" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">حجز تذكرة طيران</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="3">
+<div class="q-meta"><span class="q-number">السؤال 4</span><span class="level easy">سهل</span></div>
+<h2 class="question">البحث عن «تسجيل دخول فيسبوك» يمثل أي نوع من Search Intent؟</h2>
+<div class="options"><button type="button" class="option" data-i="3" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">Informational</span>
+</button><button type="button" class="option" data-i="3" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Navigational</span>
+</button><button type="button" class="option" data-i="3" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Commercial</span>
+</button><button type="button" class="option" data-i="3" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">Transactional</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="4">
+<div class="q-meta"><span class="q-number">السؤال 5</span><span class="level easy">سهل</span></div>
+<h2 class="question">البحث عن «أفضل هواتف 2026» يمثل غالبًا أي Intent؟</h2>
+<div class="options"><button type="button" class="option" data-i="4" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">Informational</span>
+</button><button type="button" class="option" data-i="4" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Navigational</span>
+</button><button type="button" class="option" data-i="4" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Commercial</span>
+</button><button type="button" class="option" data-i="4" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">Transactional</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="5">
+<div class="q-meta"><span class="q-number">السؤال 6</span><span class="level easy">سهل</span></div>
+<h2 class="question">البحث عن «شراء iPhone 16 بالتقسيط» يمثل أي Intent؟</h2>
+<div class="options"><button type="button" class="option" data-i="5" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">Informational</span>
+</button><button type="button" class="option" data-i="5" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Navigational</span>
+</button><button type="button" class="option" data-i="5" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Commercial</span>
+</button><button type="button" class="option" data-i="5" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">Transactional</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="6">
+<div class="q-meta"><span class="q-number">السؤال 7</span><span class="level easy">سهل</span></div>
+<h2 class="question">ما هو الـ CMS؟</h2>
+<div class="options"><button type="button" class="option" data-i="6" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">نظام لإدارة محتوى الموقع</span>
+</button><button type="button" class="option" data-i="6" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">أداة لقياس سرعة الإنترنت</span>
+</button><button type="button" class="option" data-i="6" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">نوع من أنواع الإعلانات</span>
+</button><button type="button" class="option" data-i="6" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">لغة برمجة</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="7">
+<div class="q-meta"><span class="q-number">السؤال 8</span><span class="level medium">متوسط</span></div>
+<h2 class="question">أي مما يلي ذُكر كمثال على CMS؟</h2>
+<div class="options"><button type="button" class="option" data-i="7" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">WordPress</span>
+</button><button type="button" class="option" data-i="7" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Google Search</span>
+</button><button type="button" class="option" data-i="7" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Google Analytics</span>
+</button><button type="button" class="option" data-i="7" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">HTML فقط</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="8">
+<div class="q-meta"><span class="q-number">السؤال 9</span><span class="level medium">متوسط</span></div>
+<h2 class="question">ما الفرق الأساسي بين الموقع المبرمج Custom والموقع المعتمد على CMS وفق المحاضرة؟</h2>
+<div class="options"><button type="button" class="option" data-i="8" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">الـ CMS يسهل بناء وإدارة الموقع دون كتابة كل الكود من الصفر</span>
+</button><button type="button" class="option" data-i="8" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">الموقع Custom لا يحتاج أي برمجة</span>
+</button><button type="button" class="option" data-i="8" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">الـ CMS لا يمكن تعديله</span>
+</button><button type="button" class="option" data-i="8" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">لا يوجد أي فرق</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="9">
+<div class="q-meta"><span class="q-number">السؤال 10</span><span class="level medium">متوسط</span></div>
+<h2 class="question">في WordPress، أين يتم إضافة المقالات عادةً؟</h2>
+<div class="options"><button type="button" class="option" data-i="9" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">Pages</span>
+</button><button type="button" class="option" data-i="9" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Posts</span>
+</button><button type="button" class="option" data-i="9" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Plugins</span>
+</button><button type="button" class="option" data-i="9" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">Users</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="10">
+<div class="q-meta"><span class="q-number">السؤال 11</span><span class="level medium">متوسط</span></div>
+<h2 class="question">أي مجموعة تمثل أهم أقسام WordPress التي ركزت عليها المحاضرة للـ SEO؟</h2>
+<div class="options"><button type="button" class="option" data-i="10" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">Posts + Pages + Plugins</span>
+</button><button type="button" class="option" data-i="10" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">Media + Users + Comments فقط</span>
+</button><button type="button" class="option" data-i="10" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">Themes + Users فقط</span>
+</button><button type="button" class="option" data-i="10" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">Orders + Products فقط</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="11">
+<div class="q-meta"><span class="q-number">السؤال 12</span><span class="level medium">متوسط</span></div>
+<h2 class="question">أي مثال أقرب إلى Page وليس Post في WordPress؟</h2>
+<div class="options"><button type="button" class="option" data-i="11" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">مقالة عن أفضل الأماكن السياحية</span>
+</button><button type="button" class="option" data-i="11" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">مقالة أخبار أسبوعية</span>
+</button><button type="button" class="option" data-i="11" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">صفحة تواصل معنا</span>
+</button><button type="button" class="option" data-i="11" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">مقالة عن Keyword Research</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="12">
+<div class="q-meta"><span class="q-number">السؤال 13</span><span class="level medium">متوسط</span></div>
+<h2 class="question">ما المقصود بـ Search Volume؟</h2>
+<div class="options"><button type="button" class="option" data-i="12" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">عدد الأشخاص الذين يبحثون عن الكلمة تقريبًا خلال الشهر</span>
+</button><button type="button" class="option" data-i="12" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">عدد صفحات الموقع</span>
+</button><button type="button" class="option" data-i="12" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">عدد المنافسين في الإعلانات فقط</span>
+</button><button type="button" class="option" data-i="12" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">عدد الروابط الخلفية</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="13">
+<div class="q-meta"><span class="q-number">السؤال 14</span><span class="level medium">متوسط</span></div>
+<h2 class="question">لماذا رشح المحاضر Google Keyword Planner للحصول على بيانات Search Volume؟</h2>
+<div class="options"><button type="button" class="option" data-i="13" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">لأنه أداة من Google</span>
+</button><button type="button" class="option" data-i="13" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">لأنه يكتب المقالات تلقائيًا</span>
+</button><button type="button" class="option" data-i="13" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">لأنه يبني المواقع</span>
+</button><button type="button" class="option" data-i="13" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">لأنه يمنع المنافسة</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="14">
+<div class="q-meta"><span class="q-number">السؤال 15</span><span class="level medium">متوسط</span></div>
+<h2 class="question">في Google Keyword Planner، لماذا لا يعتمد المحاضر على Competition (Low/Medium/High) وحدها لاختيار كلمة SEO؟</h2>
+<div class="options"><button type="button" class="option" data-i="14" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">لأن هذا المقياس مرتبط أساسًا بالمنافسة في الإعلانات</span>
+</button><button type="button" class="option" data-i="14" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">لأنه لا يعرض أي بيانات</span>
+</button><button type="button" class="option" data-i="14" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">لأنه خاص بالصور فقط</span>
+</button><button type="button" class="option" data-i="14" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">لأنه يحدد سرعة الموقع</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="15">
+<div class="q-meta"><span class="q-number">السؤال 16</span><span class="level hard">صعب</span></div>
+<h2 class="question">لو كان الموقع جديدًا، أي اختيار أقرب لطريقة المحاضر في البداية؟</h2>
+<div class="options"><button type="button" class="option" data-i="15" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">استهداف كلمات أسهل وLong-tail نسبيًا</span>
+</button><button type="button" class="option" data-i="15" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">استهداف أصعب كلمة مهما كانت المنافسة</span>
+</button><button type="button" class="option" data-i="15" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">تجاهل Search Intent</span>
+</button><button type="button" class="option" data-i="15" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">اختيار الكلمات من الإعلانات فقط</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="16">
+<div class="q-meta"><span class="q-number">السؤال 17</span><span class="level hard">صعب</span></div>
+<h2 class="question">أي كلمة مما يلي تُعد Long-tail نسبيًا أكثر من «السياحة في ماليزيا»؟</h2>
+<div class="options"><button type="button" class="option" data-i="16" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">ماليزيا</span>
+</button><button type="button" class="option" data-i="16" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">سياحة ماليزيا</span>
+</button><button type="button" class="option" data-i="16" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">أفضل الأماكن السياحية في ماليزيا للعائلات</span>
+</button><button type="button" class="option" data-i="16" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">السياحة</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="17">
+<div class="q-meta"><span class="q-number">السؤال 18</span><span class="level hard">صعب</span></div>
+<h2 class="question">لديك كلمة مفتاحية بنتائج بحث كثيرة جدًا. ما الذي كان يستخدمه المحاضر كجزء من طريقة تقييم صعوبة الكلمة؟</h2>
+<div class="options"><button type="button" class="option" data-i="17" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">البحث العادي + وضع الكلمة بين علامات تنصيص + استخدام intitle:</span>
+</button><button type="button" class="option" data-i="17" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">عدد ألوان الموقع</span>
+</button><button type="button" class="option" data-i="17" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">عدد الصور في المقالة</span>
+</button><button type="button" class="option" data-i="17" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">عدد متابعي صاحب الموقع</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="18">
+<div class="q-meta"><span class="q-number">السؤال 19</span><span class="level hard">صعب</span></div>
+<h2 class="question">وجدت كلمة مفتاحية، لكن نتائجها وفق طريقة التقييم المذكورة تتجاوز 300 نتيجة، والموقع جديد. ما التصرف الأقرب للمحاضرة؟</h2>
+<div class="options"><button type="button" class="option" data-i="18" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">اعتبارها أصعب نسبيًا والبحث عن كلمة أسهل</span>
+</button><button type="button" class="option" data-i="18" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">اختيارها فورًا لأنها لها Search Volume</span>
+</button><button type="button" class="option" data-i="18" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">تجاهل Search Volume تمامًا</span>
+</button><button type="button" class="option" data-i="18" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">تحويلها إلى Page بدل Post</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">التالي</button>
+</div></article>
+<article class="question-card" data-question="19">
+<div class="q-meta"><span class="q-number">السؤال 20</span><span class="level hard">صعب</span></div>
+<h2 class="question">أي سيناريو يمثل عملية Keyword Research الأقرب لما شرحه المحاضر؟</h2>
+<div class="options"><button type="button" class="option" data-i="19" data-j="0">
+<span class="radio"></span><span class="letter">A</span><span class="option-text">جمع الكلمات → فلترتها وتقييم ملاءمتها للموقع → إعطاؤها للمحتوى → كتابة المقال → رفعه وتحسينه</span>
+</button><button type="button" class="option" data-i="19" data-j="1">
+<span class="radio"></span><span class="letter">B</span><span class="option-text">كتابة المقال أولًا → اختيار الكلمة بعد النشر → حذف الموقع</span>
+</button><button type="button" class="option" data-i="19" data-j="2">
+<span class="radio"></span><span class="letter">C</span><span class="option-text">اختيار أي كلمة → نشرها مباشرة دون تقييم</span>
+</button><button type="button" class="option" data-i="19" data-j="3">
+<span class="radio"></span><span class="letter">D</span><span class="option-text">اختيار Competition منخفض في Keyword Planner فقط → نشر المقال</span>
+</button></div>
+<div class="controls">
+<button type="button" class="btn-secondary prev-btn" >السابق</button>
+<button type="button" class="btn-primary next-btn">إنهاء الاختبار</button>
+</div></article></section>
+</section>
+<section class="result" id="result">
+<div class="score-ring" id="scoreRing"><div class="score-number" id="scoreNumber">0/20</div></div>
+<h2 id="resultTitle">نتيجتك</h2><p id="resultMsg"></p>
+<div class="stats"><div class="stat"><b id="correctCount">0</b>إجابات صحيحة</div><div class="stat"><b id="wrongCount">0</b>إجابات خاطئة</div><div class="stat"><b id="scorePercent">0%</b>النسبة</div></div>
+<div class="email-status" id="emailStatus">جاري إرسال النتيجة...</div>
+<button type="button" class="main-btn" id="restartBtn">إعادة الاختبار</button><div class="review" id="review"></div>
+</section>
+</main></div>
+<iframe name="emailTarget" id="emailTarget" style="display:none"></iframe>
+<form id="emailForm" action="https://formspree.io/f/maeqwpng" method="POST" target="emailTarget" style="display:none">
+<input type="hidden" name="name" id="emailName">
+<input type="hidden" name="score" id="emailScore">
+<input type="hidden" name="percentage" id="emailPercentage">
+<input type="hidden" name="correct_answers" id="emailCorrect">
+<input type="hidden" name="wrong_answers" id="emailWrong">
+<input type="hidden" name="answers" id="emailAnswers">
+<input type="hidden" name="quiz" value="SEO Master Quiz">
+<input type="hidden" name="_subject" id="emailSubject">
+</form>
+<script>
+"use strict";
+const questions=[{"q": "ما المقصود بـ SEO؟", "level": "سهل", "c": "easy", "o": ["تحسين ظهور الموقع في محركات البحث", "تصميم الشعارات فقط", "إدارة الإعلانات المدفوعة فقط", "برمجة تطبيقات الهاتف"], "a": 0}, {"q": "ما المقصود بـ Search Intent؟", "level": "سهل", "c": "easy", "o": ["نية المستخدم وراء عملية البحث", "سرعة تحميل الموقع", "عدد صفحات الموقع", "اسم الدومين"], "a": 0}, {"q": "أي كلمة مفتاحية تمثل Informational Intent بشكل أوضح؟", "level": "سهل", "c": "easy", "o": ["ما هي أفضل طرق تعلم SEO؟", "شراء iPhone 16 بالتقسيط", "تسجيل دخول فيسبوك", "حجز تذكرة طيران"], "a": 0}, {"q": "البحث عن «تسجيل دخول فيسبوك» يمثل أي نوع من Search Intent؟", "level": "سهل", "c": "easy", "o": ["Informational", "Navigational", "Commercial", "Transactional"], "a": 1}, {"q": "البحث عن «أفضل هواتف 2026» يمثل غالبًا أي Intent؟", "level": "سهل", "c": "easy", "o": ["Informational", "Navigational", "Commercial", "Transactional"], "a": 2}, {"q": "البحث عن «شراء iPhone 16 بالتقسيط» يمثل أي Intent؟", "level": "سهل", "c": "easy", "o": ["Informational", "Navigational", "Commercial", "Transactional"], "a": 3}, {"q": "ما هو الـ CMS؟", "level": "سهل", "c": "easy", "o": ["نظام لإدارة محتوى الموقع", "أداة لقياس سرعة الإنترنت", "نوع من أنواع الإعلانات", "لغة برمجة"], "a": 0}, {"q": "أي مما يلي ذُكر كمثال على CMS؟", "level": "متوسط", "c": "medium", "o": ["WordPress", "Google Search", "Google Analytics", "HTML فقط"], "a": 0}, {"q": "ما الفرق الأساسي بين الموقع المبرمج Custom والموقع المعتمد على CMS وفق المحاضرة؟", "level": "متوسط", "c": "medium", "o": ["الـ CMS يسهل بناء وإدارة الموقع دون كتابة كل الكود من الصفر", "الموقع Custom لا يحتاج أي برمجة", "الـ CMS لا يمكن تعديله", "لا يوجد أي فرق"], "a": 0}, {"q": "في WordPress، أين يتم إضافة المقالات عادةً؟", "level": "متوسط", "c": "medium", "o": ["Pages", "Posts", "Plugins", "Users"], "a": 1}, {"q": "أي مجموعة تمثل أهم أقسام WordPress التي ركزت عليها المحاضرة للـ SEO؟", "level": "متوسط", "c": "medium", "o": ["Posts + Pages + Plugins", "Media + Users + Comments فقط", "Themes + Users فقط", "Orders + Products فقط"], "a": 0}, {"q": "أي مثال أقرب إلى Page وليس Post في WordPress؟", "level": "متوسط", "c": "medium", "o": ["مقالة عن أفضل الأماكن السياحية", "مقالة أخبار أسبوعية", "صفحة تواصل معنا", "مقالة عن Keyword Research"], "a": 2}, {"q": "ما المقصود بـ Search Volume؟", "level": "متوسط", "c": "medium", "o": ["عدد الأشخاص الذين يبحثون عن الكلمة تقريبًا خلال الشهر", "عدد صفحات الموقع", "عدد المنافسين في الإعلانات فقط", "عدد الروابط الخلفية"], "a": 0}, {"q": "لماذا رشح المحاضر Google Keyword Planner للحصول على بيانات Search Volume؟", "level": "متوسط", "c": "medium", "o": ["لأنه أداة من Google", "لأنه يكتب المقالات تلقائيًا", "لأنه يبني المواقع", "لأنه يمنع المنافسة"], "a": 0}, {"q": "في Google Keyword Planner، لماذا لا يعتمد المحاضر على Competition (Low/Medium/High) وحدها لاختيار كلمة SEO؟", "level": "متوسط", "c": "medium", "o": ["لأن هذا المقياس مرتبط أساسًا بالمنافسة في الإعلانات", "لأنه لا يعرض أي بيانات", "لأنه خاص بالصور فقط", "لأنه يحدد سرعة الموقع"], "a": 0}, {"q": "لو كان الموقع جديدًا، أي اختيار أقرب لطريقة المحاضر في البداية؟", "level": "صعب", "c": "hard", "o": ["استهداف كلمات أسهل وLong-tail نسبيًا", "استهداف أصعب كلمة مهما كانت المنافسة", "تجاهل Search Intent", "اختيار الكلمات من الإعلانات فقط"], "a": 0}, {"q": "أي كلمة مما يلي تُعد Long-tail نسبيًا أكثر من «السياحة في ماليزيا»؟", "level": "صعب", "c": "hard", "o": ["ماليزيا", "سياحة ماليزيا", "أفضل الأماكن السياحية في ماليزيا للعائلات", "السياحة"], "a": 2}, {"q": "لديك كلمة مفتاحية بنتائج بحث كثيرة جدًا. ما الذي كان يستخدمه المحاضر كجزء من طريقة تقييم صعوبة الكلمة؟", "level": "صعب", "c": "hard", "o": ["البحث العادي + وضع الكلمة بين علامات تنصيص + استخدام intitle:", "عدد ألوان الموقع", "عدد الصور في المقالة", "عدد متابعي صاحب الموقع"], "a": 0}, {"q": "وجدت كلمة مفتاحية، لكن نتائجها وفق طريقة التقييم المذكورة تتجاوز 300 نتيجة، والموقع جديد. ما التصرف الأقرب للمحاضرة؟", "level": "صعب", "c": "hard", "o": ["اعتبارها أصعب نسبيًا والبحث عن كلمة أسهل", "اختيارها فورًا لأنها لها Search Volume", "تجاهل Search Volume تمامًا", "تحويلها إلى Page بدل Post"], "a": 0}, {"q": "أي سيناريو يمثل عملية Keyword Research الأقرب لما شرحه المحاضر؟", "level": "صعب", "c": "hard", "o": ["جمع الكلمات → فلترتها وتقييم ملاءمتها للموقع → إعطاؤها للمحتوى → كتابة المقال → رفعه وتحسينه", "كتابة المقال أولًا → اختيار الكلمة بعد النشر → حذف الموقع", "اختيار أي كلمة → نشرها مباشرة دون تقييم", "اختيار Competition منخفض في Keyword Planner فقط → نشر المقال"], "a": 0}];
+let current=0, answers=new Array(questions.length).fill(null), studentName="";
+const $=id=>document.getElementById(id);
+
+function startQuiz(){
+ studentName=($("studentName").value||"").trim();
+ if(!studentName){alert("اكتب اسمك الأول عشان تبدأ الامتحان.");$("studentName").focus();return;}
+ $("displayName").textContent=studentName;$("startScreen").classList.add("hidden");$("quizArea").classList.remove("hidden");
+ current=0;updateQuestion();window.scrollTo(0,0);
+}
+function updateQuestion(){
+ document.querySelectorAll(".question-card").forEach((c,i)=>c.classList.toggle("active",i===current));
+ $("progressText").textContent=`السؤال ${current+1} من ${questions.length}`;
+ const p=Math.round(((current+1)/questions.length)*100);$("percent").textContent=p+"%";$("progressBar").style.width=p+"%";
+}
+function selectAnswer(i,j){
+ answers[i]=j;
+ document.querySelectorAll(`.question-card[data-question="${i}"] .option`).forEach((b,k)=>b.classList.toggle("selected",k===j));
+}
+function next(){
+ if(answers[current]===null){alert("اختار إجابة الأول.");return;}
+ if(current<questions.length-1){current++;updateQuestion();window.scrollTo(0,0);}else finish();
+}
+function prev(){if(current>0){current--;updateQuestion();window.scrollTo(0,0);}}
+function sendResult(correct,wrong,pct){
+ $("emailName").value=studentName;$("emailScore").value=`${correct}/${questions.length}`;$("emailPercentage").value=pct+"%";
+ $("emailCorrect").value=correct;$("emailWrong").value=wrong;
+ $("emailAnswers").value=answers.map((a,i)=>`${i+1}: ${String.fromCharCode(65+a)} - ${questions[i].o[a]}`).join("\n");
+ $("emailSubject").value=`نتيجة اختبار SEO - ${studentName} - ${correct}/${questions.length}`;
+ try{$("emailForm").submit();$("emailStatus").textContent="تم إرسال النتيجة تلقائيًا.";$("emailStatus").style.color="var(--green)";}
+ catch(e){$("emailStatus").textContent="تم حساب النتيجة، لكن تعذر إرسال البريد تلقائيًا.";}
+}
+function finish(){
+ if(answers[current]===null){alert("اختار إجابة الأول.");return;}
+ const correct=answers.reduce((s,a,i)=>s+(a===questions[i].a?1:0),0), wrong=questions.length-correct, pct=Math.round(correct/questions.length*100);
+ $("quizArea").classList.add("hidden");$("result").classList.add("show");$("scoreNumber").textContent=`${correct}/${questions.length}`;
+ $("correctCount").textContent=correct;$("wrongCount").textContent=wrong;$("scorePercent").textContent=pct+"%";
+ $("resultTitle").textContent=pct>=90?"ممتاز جدًا 🔥":pct>=75?"شغل ممتاز 👏":pct>=60?"جيد جدًا — محتاج مراجعة بسيطة":"محتاج مراجعة المحاضرات 💪";
+ $("resultMsg").textContent=`${studentName}، أجبت بشكل صحيح على ${correct} من ${questions.length} سؤال.`;
+ $("scoreRing").style.background=`conic-gradient(var(--blue) ${pct*3.6}deg,#e8eef8 0deg)`;
+ $("review").innerHTML="<h3>مراجعة الإجابات</h3>"+questions.map((q,i)=>{const ok=answers[i]===q.a;return `<div class="review-item ${ok?"correct":"wrong"}"><div class="review-q">${i+1}. ${q.q}</div><div class="review-a">${ok?"✓ إجابتك صحيحة":"✗ الإجابة الصحيحة: "+String.fromCharCode(65+q.a)+" — "+q.o[q.a]}</div></div>`;}).join("");
+ sendResult(correct,wrong,pct);window.scrollTo(0,0);
+}
+function restartQuiz(){
+ answers=new Array(questions.length).fill(null);current=0;$("result").classList.remove("show");$("startScreen").classList.remove("hidden");$("quizArea").classList.add("hidden");$("studentName").value=studentName;window.scrollTo(0,0);
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ $("startBtn").addEventListener("click",startQuiz);$("restartBtn").addEventListener("click",restartQuiz);
+ $("studentName").addEventListener("keydown",e=>{if(e.key==="Enter")startQuiz();});
+ document.querySelectorAll(".question-card").forEach(card=>{
+  const i=Number(card.dataset.question);
+  card.querySelectorAll(".option").forEach((b,j)=>b.addEventListener("click",()=>selectAnswer(i,j)));
+  card.querySelector(".next-btn").addEventListener("click",next);card.querySelector(".prev-btn").addEventListener("click",prev);
+ });
+});
+</script>
+</body></html>
